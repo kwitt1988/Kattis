@@ -1,0 +1,436 @@
+import java.util.*;
+
+class cowboy-checkers {
+	static Intersection[] board = new Intersection[24];
+	static ArrayList<Integer> connectedIntersections = new ArrayList<>();
+	static int connectedIntersectionsCount = 0;
+	
+	public static void main(String[] args) {
+		initBoard();
+		parseTestBoard();
+		checkConnectedIntersections();
+		
+		if(doesClosedMillExist()) {
+			System.out.println("double mill");
+		} 
+		else {
+			System.out.println("no double mill");
+		}		
+	}
+
+    // Initiate the board with .
+	public static void initBoard() {
+		board[0] = new Intersection('.');
+		board[1] = new Intersection('.');
+		board[2] = new Intersection('.');
+		board[3] = new Intersection('.');
+		board[4] = new Intersection('.');
+		board[5] = new Intersection('.');
+		board[6] = new Intersection('.');
+		board[7] = new Intersection('.');
+		board[8] = new Intersection('.');
+		board[9] = new Intersection('.');
+		board[10] = new Intersection('.');
+		board[11] = new Intersection('.');
+		board[12] = new Intersection('.');
+		board[13] = new Intersection('.');
+		board[14] = new Intersection('.');
+		board[15] = new Intersection('.');
+		board[16] = new Intersection('.');
+		board[17] = new Intersection('.');
+		board[18] = new Intersection('.');
+		board[19] = new Intersection('.');
+		board[20] = new Intersection('.');
+		board[21] = new Intersection('.');
+		board[22] = new Intersection('.');
+		board[23] = new Intersection('.');
+	}
+	
+    // Parse the test-case, exluding center dot.
+	public static void parseTestBoard() {
+		Scanner scanner = new Scanner(System.in);
+		int intersectionCounter = 0;
+		
+		for(int i = 0; i < 7; i++) {
+			 String line = scanner.nextLine();
+			 for(int j = 0; j < 7; j++) {
+				 if(!(i == 3 && j == 3)) {
+					 char type = line.charAt(j);
+					 if(type == 'B' || type == 'W' || type == '.') { 
+						 board[intersectionCounter].setType(type);
+						 intersectionCounter++;
+					 }
+				 }					 
+			 }
+		}
+		scanner.close();
+	}
+
+    // Check every intersetion if it is connected to a closed mill. If so add it to list of intersections and increment the count.
+	public static void checkConnectedIntersections() {
+		for(int i = 0; i < 24; i++) {
+			if((board[i].getType() != 'B') && (board[i].getType() != '.')) {
+				if(isIntersectionConnected(i)) {
+					connectedIntersections.add(i);
+					connectedIntersectionsCount++;
+				}
+			}
+		}
+	}
+	
+    // Switch-function checking if the intersetion is connected to a closed mill.
+	public static boolean isIntersectionConnected(int intersection) {
+		switch(intersection) {
+			case 0:
+				if((board[0].getType() == board[1].getType() && board[1].getType() == board[2].getType()) || (board[0].getType() == board[9].getType() && board[9].getType() == board[21].getType())) {
+					return true;
+				}
+				else return false;
+			
+			case 1:
+				if((board[0].getType() == board[1].getType() && board[1].getType() == board[2].getType()) || (board[1].getType() == board[4].getType() && board[4].getType() == board[7].getType())) {
+					return true;
+				}
+				else return false;
+	
+			case 2:
+				if((board[0].getType() == board[1].getType() && board[1].getType() == board[2].getType()) || (board[2].getType() == board[14].getType()) && (board[14].getType() == board[23].getType())) {
+					return true;
+				}
+				else return false;
+				
+			case 3:
+				if((board[3].getType() == board[10].getType() && board[10].getType() == board[18].getType()) || (board[3].getType() == board[4].getType()) && (board[4].getType() == board[5].getType())) {
+					return true;
+				}
+				else return false;
+				
+			case 4:
+				if((board[1].getType() == board[4].getType() && board[4].getType() == board[7].getType()) || (board[3].getType() == board[4].getType()) && (board[4].getType() == board[5].getType())) {
+					return true;
+				}
+				else return false;
+
+			case 5:
+				if((board[3].getType() == board[4].getType() && board[4].getType() == board[5].getType()) || (board[5].getType() == board[13].getType()) && (board[13].getType() == board[20].getType())) {
+					return true;
+				}
+				else return false;
+				
+			case 6:
+				if((board[6].getType() == board[11].getType() && board[11].getType() == board[15].getType()) || (board[6].getType() == board[7].getType()) && (board[7].getType() == board[8].getType())) {
+					return true;
+				}
+				else return false;
+				
+			case 7:
+				if((board[1].getType() == board[4].getType() && board[4].getType() == board[7].getType()) || (board[6].getType() == board[7].getType()) && (board[7].getType() == board[8].getType())) {
+					return true;
+				}
+				else return false;
+				
+			case 8:
+				if((board[6].getType() == board[7].getType() && board[7].getType() == board[8].getType()) || (board[8].getType() == board[12].getType()) && (board[12].getType() == board[17].getType())) {
+					return true;
+				}
+				else return false;
+				
+			case 9:
+				if((board[0].getType() == board[9].getType() && board[9].getType() == board[21].getType()) || (board[9].getType() == board[10].getType()) && (board[10].getType() == board[11].getType())) {
+					return true;
+				}
+				else return false;
+				
+			case 10:
+				if((board[9].getType() == board[10].getType() && board[10].getType() == board[11].getType()) || (board[3].getType() == board[10].getType()) && (board[10].getType() == board[18].getType())) {
+					return true;
+				}
+				else return false;
+				
+			case 11:
+				if((board[9].getType() == board[10].getType() && board[10].getType() == board[11].getType()) || (board[6].getType() == board[11].getType()) && (board[11].getType() == board[15].getType())) {
+					return true;
+				}
+				else return false;
+				
+			case 12:
+				if((board[8].getType() == board[12].getType() && board[12].getType() == board[17].getType()) || (board[12].getType() == board[13].getType()) && (board[13].getType() == board[14].getType())) {
+					return true;
+				}
+				else return false;
+				
+			case 13:
+				if((board[12].getType() == board[13].getType() && board[13].getType() == board[14].getType()) || (board[5].getType() == board[13].getType()) && (board[13].getType() == board[20].getType())) {
+					return true;
+				}
+				else return false;
+				
+			case 14:
+				if((board[12].getType() == board[13].getType() && board[13].getType() == board[14].getType()) || (board[2].getType() == board[14].getType()) && (board[14].getType() == board[23].getType())) {
+					return true;
+				}
+				else return false;
+				
+			case 15:
+				if((board[6].getType() == board[11].getType() && board[11].getType() == board[15].getType()) || (board[15].getType() == board[16].getType()) && (board[16].getType() == board[17].getType())) {
+					return true;
+				}
+				else return false;
+				
+			case 16:
+				if((board[15].getType() == board[16].getType() && board[16].getType() == board[17].getType()) || (board[16].getType() == board[19].getType()) && (board[19].getType() == board[22].getType())) {
+					return true;
+				}
+				else return false;
+				
+			case 17:
+				if((board[15].getType() == board[16].getType() && board[16].getType() == board[17].getType()) || (board[8].getType() == board[12].getType()) && (board[12].getType() == board[17].getType())) {
+					return true;
+				}
+				else return false;
+				
+			case 18:
+				if((board[3].getType() == board[10].getType() && board[10].getType() == board[18].getType()) || (board[18].getType() == board[19].getType()) && (board[19].getType() == board[20].getType())) {
+					return true;
+				}
+				else return false;
+				
+			case 19:
+				if((board[18].getType() == board[19].getType() && board[19].getType() == board[20].getType()) || (board[16].getType() == board[19].getType()) && (board[19].getType() == board[22].getType())) {
+					return true;
+				}
+				else return false;
+				
+			case 20:
+				if((board[18].getType() == board[19].getType() && board[19].getType() == board[20].getType()) || (board[5].getType() == board[13].getType()) && (board[13].getType() == board[20].getType())) {
+					return true;
+				}
+				else return false;
+				
+			case 21:
+				if((board[0].getType() == board[9].getType() && board[9].getType() == board[21].getType()) || (board[21].getType() == board[22].getType()) && (board[22].getType() == board[23].getType())) {
+					return true;
+				}
+				else return false;
+				
+			case 22:
+				if((board[21].getType() == board[22].getType() && board[22].getType() == board[23].getType()) || (board[16].getType() == board[19].getType()) && (board[19].getType() == board[22].getType())) {
+					return true;
+				}
+				else return false;
+				
+			case 23:
+				if((board[21].getType() == board[22].getType() && board[22].getType() == board[23].getType()) || (board[2].getType() == board[14].getType()) && (board[14].getType() == board[23].getType())) {
+					return true;
+				}
+				else return false;
+				
+			default:
+				throw new IllegalArgumentException("Pass valid intersection");
+		}
+	}
+	
+    // Iterate over the connected intersections, trying out every legal move.
+    // Compare the number of mills before and after the legal move - if its the same, a double mill exist.
+    // IF any legal move result in a double mill - return true.
+    // ELSE return false.
+	public static boolean doesClosedMillExist() {
+		int originalMills = 0;
+		int swappedMills = 0;
+		boolean doubleMillExist = false;
+		
+		for(int i = 0; i < connectedIntersectionsCount; i++) {
+			int[] intersectionNeighbours = neighbours(connectedIntersections.get(i));
+			
+			for(int j = 0; j < intersectionNeighbours.length; j++) {
+				int currentIntersection = connectedIntersections.get(i);	
+				
+				if(board[intersectionNeighbours[j]].getType() == '.') {
+					originalMills = checkNumberOfMills();
+					
+					board[intersectionNeighbours[j]].setType('W');
+					board[currentIntersection].setType('.');
+					
+					swappedMills = checkNumberOfMills();
+					
+					board[intersectionNeighbours[j]].setType('.');
+					board[currentIntersection].setType('W');
+					if(swappedMills >= originalMills) {
+						doubleMillExist = true;
+					}
+				}
+			}
+		}
+		
+		return doubleMillExist;
+	}
+	
+    // Return an int[] of an intersections neighbours. 
+	public static int[] neighbours(int intersection) {
+		switch(intersection) {	
+			case 0: 
+				return new int[] {1,9};
+			
+			case 1: 
+				return new int[] {0, 2, 4};
+			
+			case 2: 
+				return new int[] {1, 14};
+	
+			case 3: 
+				return new int[] {10, 4};
+	
+			case 4: 
+				return new int[] {3, 1, 7, 5};
+	
+			case 5: 
+				return new int[] {4, 13};
+			
+			case 6: 
+				return new int[] {11, 7};
+			
+			case 7: 
+				return new int[] {6, 4, 8};
+			
+			case 8: 
+				return new int[] {7, 12};
+			
+			case 9: 
+				return new int[] {0, 21, 10};
+			
+			case 10: 
+				return new int[] {9, 3, 18, 11};
+			
+			case 11:
+				return new int[] {10, 6, 15};
+	
+			case 12: 
+				return new int[] {8, 17, 13};
+	
+			case 13: 
+				return new int[] {12, 5, 20, 14};
+			
+			case 14: 
+				return new int[] {13, 2, 23};
+	
+			case 15:
+				return new int[] {11, 16};
+	
+			case 16: 
+				return new int[] {15, 17, 19};
+	
+			case 17: 
+				return new int[] {16, 12};
+	
+			case 18: 
+				return new int[] {10, 19};
+	
+			case 19: 
+				return new int[] {18, 16, 22, 20};
+	
+			case 20: 
+				return new int[] {19, 13};
+	
+			case 21:
+				return new int[] {9, 22};
+			
+			case 22: 
+				return new int[] {21, 19, 23};
+	
+			case 23: 
+				return new int[] {22, 14};
+				
+			default:
+		          throw new IllegalArgumentException("Pass valid intersection");
+		}
+	}
+	
+    // Return the number of white mills currently on the board.
+	public static int checkNumberOfMills(){
+	    int numberOfMills = 0;
+        if(board[0].getType() == 'W' && board[0].getType() == board[1].getType() && board[1].getType() == board[2].getType()   ){
+            numberOfMills++;
+        }
+
+        if(board[0].getType() == 'W' && board[0].getType() == board[9].getType() && board[9].getType() == board[21].getType()){
+            numberOfMills++;
+        }
+
+        if(board[1].getType() == 'W' && board[1].getType() == board[4].getType() && board[4].getType() == board[7].getType()){
+            numberOfMills++;
+        }
+
+        if(board[2].getType() == 'W' && board[2].getType() == board[14].getType() && board[14].getType() == board[23].getType()){
+            numberOfMills++;
+        }
+
+        if(board[3].getType() == 'W' && board[3].getType() == board[4].getType() && board[4].getType() == board[5].getType()){
+            numberOfMills++;
+        }
+
+        if(board[3].getType() == 'W' && board[3].getType() == board[10].getType() && board[10].getType() == board[18].getType()){
+            numberOfMills++;
+        }
+
+        if(board[5].getType() == 'W' && board[5].getType() == board[13].getType() && board[13].getType() == board[20].getType()){
+            numberOfMills++;
+        }
+
+        if(board[6].getType() == 'W' && board[6].getType() == board[11].getType() && board[11].getType() == board[15].getType()){
+            numberOfMills++;
+        }
+
+        if(board[6].getType() == 'W' && board[6].getType() == board[7].getType() && board[7].getType() == board[8].getType()){
+            numberOfMills++;
+        }
+
+        if(board[9].getType() == 'W' && board[9].getType() == board[10].getType() && board[10].getType() == board[11].getType()){
+            numberOfMills++;
+        }
+
+        if(board[8].getType() == 'W' && board[8].getType() == board[12].getType() && board[12].getType() == board[17].getType()){
+            numberOfMills++;
+        }
+
+        if(board[12].getType() == 'W' && board[12].getType() == board[13].getType() && board[13].getType() == board[14].getType()){
+            numberOfMills++;
+        }
+
+        if(board[15].getType() == 'W' && board[15].getType() == board[16].getType() && board[16].getType() == board[17].getType()){
+            numberOfMills++;
+        }
+
+        if(board[16].getType() == 'W' && board[16].getType() == board[19].getType() && board[19].getType() == board[22].getType()){
+            numberOfMills++;
+        }
+
+        if(board[18].getType() == 'W' && board[18].getType() == board[19].getType() && board[19].getType() == board[20].getType()){
+            numberOfMills++;
+        }
+
+
+        if(board[21].getType() == 'W' && board[21].getType() == board[22].getType() && board[22].getType() == board[23].getType()){
+            numberOfMills++;
+        }
+
+	    return numberOfMills;
+	}
+}
+
+// Intersection class representing an intersection and what resides at the intersection.
+class Intersection {
+	char type = 0;
+
+	public Intersection(char type) {
+		this.type = type;
+	}
+	
+	public void setType(char type) {
+		this.type = type;
+
+	}
+	
+	public char getType() {
+		return this.type;
+	}
+}

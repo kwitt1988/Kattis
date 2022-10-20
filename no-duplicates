@@ -1,0 +1,43 @@
+import java.util.Scanner;
+
+class no-duplicates {
+    public static void main(String[] args) {
+    	if(containDuplicates(parseString())){
+    		System.out.println("no");
+    	} 
+    	else {
+    		System.out.println("yes");
+    	}
+    }
+
+    // Parse the string with a scanner.
+    // Split the sentence into words with regex delimiter \\s+ (whitespace).
+    // RETURN the words.
+    private static String[] parseString() {
+		Scanner scanner = new Scanner(System.in);
+        String sentence = scanner.nextLine();
+        String[] words = sentence.split("\\s+");
+        scanner.close();
+        return words;
+    }
+    
+    // Iterate over the words array checking for duplicates.
+    // If a duplicate is found increment the count variable.
+    // IF duplicate is found return true.
+    // ELSE return false.
+    private static boolean containDuplicates(String [] words) {
+    	for(int i = 0; i < words.length; i++) {
+    		int count = 0;
+    		for (int j = i+1; j < words.length; j++) {
+    			if(words[i].equals(words[j])) {
+    				count++;
+    			}
+    		}
+    		
+            if(count > 0) {
+            	return true;
+            }
+        }    
+		return false;
+    }
+}
